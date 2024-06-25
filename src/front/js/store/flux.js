@@ -1,52 +1,69 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+            auth: false,
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+            signUp: async (name, email, password) => {
+                console.log(name, email, password);
+                console.log(process.env.BACKEND_URL + "/api/signup");
+                try {
+                    let response = await fetch(process.env.BACKEND_URL + "/api/signup", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "name": name,
+                            "email": email,
+                            "password": password
+                        })
+                    });
+            
+                    let data = await response.json();
+            
+                    console.log("🤦‍♂️");
+            
+                    if (response.status >= 200 && response.status < 300) {
+                        alert("User registered successfully.");
+                    } else {
+                        alert("User already registered.");
+                        console.log(data.message);
+                    }
+                } catch (error) {
+                    console.log("😜");
+                    console.error(error);
+                }
+            },
 
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+            logIn: async ( email, password ) => {
+                try {
+                    let response = await fetch(process.env.BACKEND_URL + "/api/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "email": email,
+                            "password": password
+                        })
+                    });
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+                    let data = await response.json();
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
+                    if (response.status === 200) {
+                        localStorage.setItem("token", data.access_token);
+                        setStore({ auth: true })
+                    }
+                    else {
+                        console.log(data.msg)
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+
 		}
 	};
 };
