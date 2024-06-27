@@ -1,19 +1,22 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from 'react-router-dom';
 
 export const LogIn = () => {
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogIn = () => {
-
+    const handleLogIn = (e) => {
+		e.preventDefault();
+		
 		actions.logIn(email, password);
 
 		setEmail("");
 		setPassword("");
-
+		navigate("/");
     }
 
     return (

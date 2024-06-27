@@ -6,8 +6,7 @@ export const Home = () => {
 
     return (
 		<div className="d-flex justify-content-center">
-            <a className="m-5" href="/signup">Sign up</a>
-            <a className="m-5" href="/login">Log in</a>
+
 		</div>
     );
 };

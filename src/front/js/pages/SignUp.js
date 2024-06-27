@@ -8,8 +8,9 @@ export const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSignUp = () => {
-
+    const handleSignUp = (e) => {
+		e.preventDefault();
+		
 		actions.signUp(name, email, password);
 
 		setName("");

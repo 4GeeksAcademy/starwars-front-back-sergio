@@ -4,9 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             auth: false,
 		},
 		actions: {
-            signUp: async (name, email, password) => {
-                console.log(name, email, password);
-                console.log(process.env.BACKEND_URL + "/api/signup");
+            signUp: async ( name, email, password ) => {
                 try {
                     let response = await fetch(process.env.BACKEND_URL + "/api/signup", {
                         method: "POST",
@@ -22,8 +20,6 @@ const getState = ({ getStore, getActions, setStore }) => {
             
                     let data = await response.json();
             
-                    console.log("🤦‍♂️");
-            
                     if (response.status >= 200 && response.status < 300) {
                         alert("User registered successfully.");
                     } else {
@@ -31,7 +27,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                         console.log(data.message);
                     }
                 } catch (error) {
-                    console.log("😜");
                     console.error(error);
                 }
             },
