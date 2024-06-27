@@ -16,7 +16,7 @@ export const LogIn = () => {
 
 		setEmail("");
 		setPassword("");
-		navigate("/");
+		navigate("/favorites");
     }
 
     return (

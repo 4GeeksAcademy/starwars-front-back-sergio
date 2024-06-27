@@ -7,7 +7,7 @@ class User(db.Model):
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    favourites = db.relationship('Favourite', backref='user', lazy=True)
+    favorites = db.relationship('Favorite', backref='user', lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.id
@@ -24,7 +24,7 @@ class Character(db.Model):
     name = db.Column(db.String(250), nullable=True)
     url_img = db.Column(db.String(250), nullable=True)
     description = db.Column(db.String(250), nullable=True)
-    favourites = db.relationship('Favourite', backref='character', lazy=True)
+    favorites = db.relationship('Favorite', backref='character', lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -46,7 +46,7 @@ class Planet(db.Model):
     diameter = db.Column(db.String(250), nullable=True)
     orbital_period = db.Column(db.String(250), nullable=True)
     rotation_period = db.Column(db.String(250), nullable=True)
-    favourites = db.relationship('Favourite', backref='planet', lazy=True)
+    favorites = db.relationship('Favorite', backref='planet', lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -71,7 +71,7 @@ class Vehicle(db.Model):
     description = db.Column(db.String(250), nullable=True)
     model = db.Column(db.String(250), nullable=True)
     max_atmosphering_speed = db.Column(db.String(250), nullable=True)
-    favourites = db.relationship('Favourite', backref='vehicle', lazy=True)
+    favorites = db.relationship('Favorite', backref='vehicle', lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -86,7 +86,7 @@ class Vehicle(db.Model):
             "max_atmospheting_speed": self.max_atmosphering_speed,
         }
     
-class Favourite(db.Model):
+class Favorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     url = db.Column(db.String(250), nullable=True)
@@ -95,7 +95,7 @@ class Favourite(db.Model):
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable=True)
 
     def __repr__(self):
-        return '<Favourite %r>' % self.id
+        return '<Favorite %r>' % self.id
 
     def serialize(self):
         character = Character.query.filter_by(id = self.character_id).first()
