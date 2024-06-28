@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { useNavigate } from 'react-router-dom';
 
 export const LogIn = () => {
+	
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
 

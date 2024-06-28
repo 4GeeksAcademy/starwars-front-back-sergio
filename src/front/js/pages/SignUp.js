@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 
 export const SignUp = () => {
+	
 	const { store, actions } = useContext(Context);
 
     const [name, setName] = useState("");

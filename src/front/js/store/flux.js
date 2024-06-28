@@ -1,7 +1,9 @@
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
             auth: false,
+            favorites: [],
 		},
 		actions: {
             signUp: async ( name, email, password ) => {
@@ -21,7 +23,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                     let data = await response.json();
             
                     if (response.status >= 200 && response.status < 300) {
-                        alert("User registered successfully.");
+                        await alert("User registered successfully.");
+                        getActions().logIn();
                     } else {
                         alert("User already registered.");
                         console.log(data.message);
@@ -59,6 +62,30 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+            getAllFavorites: async () => {
+                let token = localStorage.getItem("token");
+                console.log(token);
+                try {
+                    const response = await fetch(process.env.BACKEND_URL + '/api/user/favorites', {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`,
+                        },
+                    });
+                    console.log(response);
+                    let data = await response.json();
+                    console.log(data);
+        
+                    if (response.status === 200) {
+                        setStore({ favorites: data.favorite })
+                    } else {
+                        console.error(data.msg);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
 		}
 	};
 };

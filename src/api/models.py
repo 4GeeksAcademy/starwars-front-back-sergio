@@ -10,7 +10,7 @@ class User(db.Model):
     favorites = db.relationship('Favorite', backref='user', lazy=True)
 
     def __repr__(self):
-        return '<User %r>' % self.id
+        return '<User %r>' % self.email
 
     def serialize(self):
         return {
@@ -27,7 +27,7 @@ class Character(db.Model):
     favorites = db.relationship('Favorite', backref='character', lazy=True)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Character %r>' % self.name
 
     def serialize(self):
         return {
@@ -49,7 +49,7 @@ class Planet(db.Model):
     favorites = db.relationship('Favorite', backref='planet', lazy=True)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Planet %r>' % self.name
 
     def serialize(self):
         return {
@@ -74,7 +74,7 @@ class Vehicle(db.Model):
     favorites = db.relationship('Favorite', backref='vehicle', lazy=True)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Vehicle %r>' % self.name
 
     def serialize(self):
         return {

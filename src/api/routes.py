@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app
+from flask import Flask, request, jsonify, make_response, url_for, Blueprint, current_app
 from api.models import db, User, Character, Planet, Vehicle, Favorite
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
@@ -193,7 +193,7 @@ def add_vehicle():
 
 
 
-# HANDLING FAVOURITES
+# HANDLING FAVORITES
 
 
 # Get the list of favorites of an user
@@ -216,11 +216,10 @@ def get_all_favorites():
 @api.route('/user/favorites/characters/<int:character_id>', methods=['POST'])
 @jwt_required()
 def Create_one_favorite_character(character_id):
-    url = request.json.get("url", None)
     current_user = get_jwt_identity()
     user_query = User.query.filter_by(email = current_user).first()
-    new_character_favourite = Favorite(user_id = user_query.id, url = url, character_id = character_id)
-    db.session.add(new_character_favourite)
+    new_character_favorites = Favorite(user_id = user_query.id, character_id = character_id)
+    db.session.add(new_character_favorites)
     db.session.commit()
     return jsonify("Favorite character added"), 200
 
@@ -228,11 +227,10 @@ def Create_one_favorite_character(character_id):
 @api.route('/user/favorites/planets/<int:planet_id>', methods=['POST'])
 @jwt_required()
 def Create_one_planet_favoutite(planet_id):
-    url = request.json.get("url", None)
     current_user = get_jwt_identity()
     user_query = User.query.filter_by(email = current_user).first()
-    new_planet_favourite = Favorite(user_id = user_query.id, url = url, planet_id = planet_id)
-    db.session.add(new_planet_favourite)
+    new_planet_favorites = Favorite(user_id = user_query.id, planet_id = planet_id)
+    db.session.add(new_planet_favorites)
     db.session.commit()
     return jsonify("Favorite planet added"), 200
 
@@ -240,11 +238,10 @@ def Create_one_planet_favoutite(planet_id):
 @api.route('/user/favorites/vehicles/<int:vehicle_id>', methods=['POST'])
 @jwt_required()
 def Create_one_vehicle_favoutite(vehicle_id):
-    url = request.json.get("url", None)
     current_user = get_jwt_identity()
     user_query = User.query.filter_by(email = current_user).first()
-    new_vehicle_favourite = Favorite(user_id = user_query.id, url = url, vehicle_id = vehicle_id)
-    db.session.add(new_vehicle_favourite)
+    new_vehicle_favorites = Favorite(user_id = user_query.id, vehicle_id = vehicle_id)
+    db.session.add(new_vehicle_favorites)
     db.session.commit()
     return jsonify("Favorite vehicle added"), 200
 
@@ -254,8 +251,8 @@ def Create_one_vehicle_favoutite(vehicle_id):
 def Delete_one_people_favoutite(character_id):
     current_user = get_jwt_identity()
     user_query = User.query.filter_by(email = current_user).first()
-    delete_character_favourite = Favorite.query.filter_by(user_id=user_query.id, character_id=character_id ).first()
-    db.session.delete(delete_character_favourite)
+    delete_character_favorites = Favorite.query.filter_by(user_id=user_query.id, character_id=character_id ).first()
+    db.session.delete(delete_character_favorites)
     db.session.commit()
     return jsonify("Favorite character deleted"), 200
 
@@ -265,8 +262,8 @@ def Delete_one_people_favoutite(character_id):
 def Delete_one_planet_favoutite(planet_id):
     current_user = get_jwt_identity()
     user_query = User.query.filter_by(email = current_user).first()
-    delete_planet_favourite = Favorite.query.filter_by(user_id=user_query.id, planet_id=planet_id ).first()
-    db.session.delete(delete_planet_favourite)
+    delete_planet_favorites = Favorite.query.filter_by(user_id=user_query.id, planet_id=planet_id ).first()
+    db.session.delete(delete_planet_favorites)
     db.session.commit()
     return jsonify("Favorite planet deleted"), 200
 
@@ -276,8 +273,8 @@ def Delete_one_planet_favoutite(planet_id):
 def Delete_one_vehicle_favoutite(vehicle_id):
     current_user = get_jwt_identity()
     user_query = User.query.filter_by(email = current_user).first()
-    delete_vehicle_favourite = Favorite.query.filter_by(user_id=user_query.id, vehicle_id=vehicle_id ).first()
-    db.session.delete(delete_vehicle_favourite)
+    delete_vehicle_favorites = Favorite.query.filter_by(user_id=user_query.id, vehicle_id=vehicle_id ).first()
+    db.session.delete(delete_vehicle_favorites)
     db.session.commit()
     return jsonify("Favorite vehicle deleted"), 200
 
