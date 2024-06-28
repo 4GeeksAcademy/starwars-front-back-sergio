@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 export const LogIn = () => {
 	
@@ -10,15 +10,20 @@ export const LogIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogIn = (e) => {
+	const handleLogIn = async (e) => {
 		e.preventDefault();
-		
-		actions.logIn(email, password);
+	
+		try {
+			await actions.logIn(email, password);
+		} catch (error) {
+			console.error("Login failed:", error);
+		}
 
 		setEmail("");
 		setPassword("");
+
 		navigate("/favorites");
-    }
+	}
 
     return (
 		<div className="modal-body w-100 px-5">
@@ -32,7 +37,12 @@ export const LogIn = () => {
 					<label htmlFor="inputPassword">Password</label>
 					<input type="password" className="form-control" id="inputPassword" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
 				</div>
-				<button type="submit" className="btn btn-primary" onClick={handleLogIn}>Submit</button>
+				<div className="form-group mt-3">
+					<button type="submit" className="btn btn-primary me-3" onClick={handleLogIn}>Submit</button>
+					<Link to="/">
+						<button className="btn btn-warning">Back</button>
+					</Link>
+				</div>
 			</form>
 		</div>
     );

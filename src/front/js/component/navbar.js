@@ -9,9 +9,11 @@ export const Navbar = () => {
 
 	const logOut = () => {
         localStorage.removeItem("token");
+
 		store.favorites = [];
-		console.log(store.favorites);
+
         store.auth = false;
+
 		navigate("/")
       }
 
@@ -26,12 +28,14 @@ export const Navbar = () => {
 					</div>
 					) : (
 					<div>
-						<Link to="/signup">
-							<span className="navbar-brand mb-0 h1">Sign Up</span>
-						</Link>
-						<Link to="/login">
-							<button className="btn btn-primary">Log In</button>
-						</Link>
+						<div>
+							<Link to="/signup">
+								<span className="navbar-brand mb-0 h1">Sign Up</span>
+							</Link>
+							<Link to="/login">
+								<button className="btn btn-primary">Log In</button>
+							</Link>
+						</div>
 					</div>
 					)}
 			</div>

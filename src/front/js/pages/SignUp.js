@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 export const SignUp = () => {
-	
+
 	const { store, actions } = useContext(Context);
 
     const [name, setName] = useState("");
@@ -36,7 +37,12 @@ export const SignUp = () => {
 					<label htmlFor="inputPassword">Password</label>
 					<input type="password" className="form-control" id="inputPassword" placeholder="Password" onChange={e => setPassword(e.target.value)}/>
 				</div>
-				<button type="submit" className="btn btn-primary">Submit</button>
+				<div className="form-group mt-3">
+					<button type="submit" className="btn btn-primary me-3">Submit</button>
+					<Link to="/">
+						<button className="btn btn-warning">Back</button>
+					</Link>
+				</div>
 			</form>
 		</div>
     );
